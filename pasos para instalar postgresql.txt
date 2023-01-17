@@ -1,0 +1,72 @@
+1ero 
+Cuando queramos trabajar con una base postgress instalar esto
+Dentro de nuestro entorno virtual instalar esto para poder conectarnos a postgres
+pip install psycopg2(windows)
+pip install psycopg2-binary (linux)
+
+2do
+Entrar a la base de postgres
+sudo -i -u postgres 
+
+3er
+Crear la base de datos
+postgres@ahiezer-Inspiron-7380:~$ createdb dbuser
+
+4
+Nos metemos a la base de datos
+postgres@ahiezer-Inspiron-7380:~$ psql dbuser
+
+5
+Le damos acceso a la base de datos a un usuario
+dbuser=# alter user ahiezer with password 'ASDqwe123';
+
+
+------------------------------------------------------------------------------------------------
+
+Crear un usuario
+postgres=# CREATE USER ahiezer PASSWORD 'ASDqwe123';
+
+Crear la base de datos
+postgres@ahiezer-Inspiron-7380:~$ createdb dbbiblioteca
+
+Accedemos a la base de datos
+postgres@ahiezer-Inspiron-7380:~$ psql dbbiblioteca
+
+Cambiar permisos
+dbbiblioteca=# alter user ahiezer with password 'ASDqwe123';
+
+
+Asignar permisos de super usuario a un usuario
+postgres=# ALTER ROLE ahiezer WITH PASSWORD 'ASDqwe123';
+
+
+------------------------------------------------------------------------------------------------
+Crear triagrama en un campo de una tabla en postgress
+Entramos a la terminal:
+(libro) ahiezer@ahiezer-Inspiron-7380:~/proyectos/biblioteca/biblioteca$ 
+
+Entramos a nuestra db
+postgres@ahiezer-Inspiron-7380:~$ psql dbbiblioteca
+
+decimos que queremos crear un triagram
+dbbiblioteca=# CREATE EXTENSION pg_trgm;
+CREATE EXTENSION
+
+dbbiblioteca=# CREATE INDEX libro_nombre_idx ON libro_libro USING GIN(nombre gin_trgm_ops);
+CREATE INDEX
+
+------------------------------------------------------------------------------------------------
+Lista todas las tablas de esa base
+dbbiblioteca=# \dt
+------------------------------------------------------------------------------------------------
+Generar copia de mi bd de postgress
+ahiezer@ahiezer-Inspiron-7380:~/proyectos/biblioteca$ mkdir resguardo
+ahiezer@ahiezer-Inspiron-7380:~/proyectos/biblioteca$ chmod 777 resguardo/
+ahiezer@ahiezer-Inspiron-7380:~/proyectos/biblioteca$ cd resguardo/
+ahiezer@ahiezer-Inspiron-7380:~/proyectos/biblioteca/resguardo$ sudo -i -u postgres 
+postgres@ahiezer-Inspiron-7380:~$ pg_dump dbbiblioteca>copia_biblio
+------------------------------------------------------------------------------------------------
+Restablecer base de datos:
+postgres@ahiezer-Inspiron-7380:~$ psql dbbiblioteca <copia_biblio
+
+
